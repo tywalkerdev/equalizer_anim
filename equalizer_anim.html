@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<style type="">
+
+			body {
+				margin: 0;
+				padding: 0;
+			}
+			#myCanvas {
+				background: #eeeeee;
+			}
+			#box_wrap {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 2000px;
+				width: 2000px;
+				border: 1px solid black;
+			}
+			#box {
+				position: absolute;
+				left: 500px;
+				top: 400px;
+				height: 5px;
+				width: 25px;
+				background: black;
+			}
+			.box {
+				position: absolute;
+				left: 500px;
+				height: 5px;
+				width: 100px;
+				border: 1px solid blue;
+			}
+
+		</style>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<script>
+		var ranlen,
+		pulsing,
+		count,
+		ranOpac,
+		ranNum,
+		divTopPos,
+		thisBox;
+
+		pulsing = true;
+		count = 0;
+
+		function init() {
+			console.log("working");
+
+			for(i=0; i<10; i++) {
+				var newDiv = '<div class="box"></div>';
+
+				$("body").append(newDiv);
+			}//end for
+
+			divTopPos = 400;
+
+			$(".box").each(function() {
+				divTopPos = divTopPos + 25;
+				ranNum = Math.round(Math.random() * 1000);
+				$(this).css({
+					'top' : divTopPos,
+					'width' : ranNum
+				})
+			}); // end each
+
+			pulsateLine(10000);
+		} // end init
+
+		function pulsateLine(x) {
+			if (x > 0) {
+				setTimeout(function() {
+					$(".box").each(function() {
+						ranNum = Math.round(Math.random() * 1000);
+						thisBox = $(this);
+						TweenMax.to(thisBox, 0.5, {width: ranNum});
+					});
+					ranLen = Math.round(Math.random() * 1000) + "px";
+					TweenMax.to("#box", 0.5, {width: ranLen, opacity: 0.5});
+					TweenMax.to("#box").kill();
+
+					return pulsateLine(x-1);
+				}, 50);
+			}
+			else {
+				console.log("donde");
+			}
+		}
+		</script>
+	</head>
+
+	<body onload="init()">
+		<div id="box_wrap">
+			<div id="box"></div>
+		</div>
+
+	</body>
+
+</html>
