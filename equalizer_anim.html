@@ -51,10 +51,19 @@
 		pulsing = true;
 		count = 0;
 
+		var bars = {
+			'number' : 20,
+			'maxWidth' : 1000,
+			'maxHeight' : 5,
+			'background' : "black",
+			'spaceBetween' : 25,
+			'vertical' : false
+		}
+
 		function init() {
 			console.log("working");
 
-			for(i=0; i<10; i++) {
+			for(i=0; i<bars.number; i++) {
 				var newDiv = '<div class="box"></div>';
 
 				$("body").append(newDiv);
@@ -63,11 +72,14 @@
 			divTopPos = 400;
 
 			$(".box").each(function() {
-				divTopPos = divTopPos + 25;
-				ranNum = Math.round(Math.random() * 1000);
+				divTopPos = divTopPos + bars.spaceBetween;
+				ranNum = Math.round(Math.random() * bars.maxWidth);
 				$(this).css({
-					'top' : divTopPos,
-					'width' : ranNum
+					'top' : divTopPos + "px",
+					'width' : ranNum + "px",
+					'height' : bars.height + "px",
+					'background' : bars.background,
+
 				})
 			}); // end each
 
@@ -78,16 +90,16 @@
 			if (x > 0) {
 				setTimeout(function() {
 					$(".box").each(function() {
-						ranNum = Math.round(Math.random() * 1000);
+						ranNum = Math.round(Math.random() * bars.maxWidth);
 						thisBox = $(this);
 						TweenMax.to(thisBox, 0.5, {width: ranNum});
 					});
-					ranLen = Math.round(Math.random() * 1000) + "px";
+					ranLen = Math.round(Math.random() * bars.maxWidth) + "px";
 					TweenMax.to("#box", 0.5, {width: ranLen, opacity: 0.5});
 					TweenMax.to("#box").kill();
 
 					return pulsateLine(x-1);
-				}, 50);
+				}, 100);
 			}
 			else {
 				console.log("donde");
